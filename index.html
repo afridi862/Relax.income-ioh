@@ -3,97 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relax.incom bd - Dashboard</title>
+  <title>Meta.pro spach</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
       --primary: #0d6efd;
-      --primary-dark: #0a58ca;
+      --yellow-light: #fff9e6;
       --light: #f8f9fa;
       --dark: #212529;
-      --gray: #6c757d;
-      --success: #28a745;
+      --modal-bg: rgba(0,0,0,0.7);
     }
     * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
     body { background: var(--light); color: var(--dark); min-height: 100vh; }
 
-    /* Auth Page */
-    #auth { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+    /* Auth */
+    #auth { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, var(--primary), #0a58ca); }
     .auth-box { background: white; padding: 40px 25px; border-radius: 16px; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center; }
-    input { width: 100%; padding: 14px; margin: 12px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
-    button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
-    button:hover { background: var(--primary-dark); }
+    input { width: 100%; padding: 14px; margin: 12px 0; border: 1px solid #ccc; border-radius: 8px; }
+    button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; }
+    button:hover { background: #0a58ca; }
     .toggle { margin-top: 15px; color: var(--primary); cursor: pointer; font-weight: bold; }
 
-    /* Dashboard */
-    #dashboard { display: none; padding: 20px; padding-bottom: 80px; }
+    /* Home */
+    #home { display: none; }
     header {
-      background: var(--primary);
-      color: white;
-      padding: 25px;
+      background: var(--yellow-light);
+      padding: 20px;
       text-align: center;
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
     }
-    .banner { font-size: 2.8rem; font-weight: 900; text-shadow: 3px 5px 12px rgba(0,0,0,0.5); transform: perspective(500px) rotateX(10deg); margin: 10px 0; }
-    .unveiled { color: gold; font-weight: bold; cursor: pointer; }
+    .banner {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-shadow: 4px 6px 12px rgba(0,0,0,0.4);
+      transform: perspective(600px) rotateX(15deg);
+      margin: 10px 0;
+    }
+    .unverified {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      background: #ff4444;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .welcome {
+      background: white;
+      border-radius: 16px;
+      margin: 30px 15px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee {
+      display: inline-block;
+      animation: scroll 20s linear infinite;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
 
     .menu-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 30px 0;
+      gap: 16px;
+      padding: 20px;
     }
     .box {
       background: var(--primary);
       color: white;
-      border-radius: 16px;
-      padding: 20px 10px;
+      border-radius: 20px;
+      padding: 18px 12px;
       text-align: center;
       box-shadow: 0 6px 20px rgba(13,110,253,0.3);
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s;
+      transform-style: preserve-3d;
     }
     .box:hover {
-      transform: translateY(-8px) scale(1.06);
+      transform: translateY(-8px) rotateX(10deg);
       box-shadow: 0 12px 30px rgba(13,110,253,0.5);
     }
-    .box i { font-size: 2.2rem; margin-bottom: 10px; }
-    .box span { display: block; font-size: 1rem; font-weight: 600; }
-
-    .dot { position: fixed; top: 15px; right: 15px; font-size: 2.5rem; cursor: pointer; color: white; background: rgba(0,0,0,0.5); width: 50px; height: 50px; border-radius: 50%; text-align: center; line-height: 50px; z-index: 100; }
-    #profile { position: fixed; top: 0; right: -320px; width: 320px; height: 100%; background: white; transition: right 0.4s; padding: 40px 25px; box-shadow: -8px 0 30px rgba(0,0,0,0.3); z-index: 99; }
-    #profile.open { right: 0; }
+    .box i { font-size: 2.3rem; margin-bottom: 8px; }
+    .box span { font-size: 0.95rem; font-weight: 600; display: block; }
 
     /* Modal */
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); overflow: auto; }
-    .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 16px; width: 90%; max-width: 520px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center; position: relative; }
-    .close-btn { position: absolute; top: 10px; right: 15px; font-size: 2rem; cursor: pointer; color: #dc3545; }
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: var(--modal-bg); overflow: auto; }
+    .modal-content { background: white; margin: 8% auto; padding: 35px; border-radius: 20px; width: 90%; max-width: 580px; box-shadow: 0 15px 50px rgba(0,0,0,0.4); text-align: center; position: relative; transform: scale(0.9); transition: transform 0.3s; }
+    .modal.show { transform: scale(1); }
+    .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2.8rem; cursor: pointer; color: #dc3545; }
+
     .back-btn { background: #dc3545; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 30px; }
 
-    @media (max-width: 600px) {
-      .menu-grid { grid-template-columns: repeat(2, 1fr); }
-      .banner { font-size: 2.2rem; }
-      .modal-content { margin: 15% auto; }
-    }
+    @media (max-width: 600px) { .menu-grid { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body>
 
-<!-- লগইন / রেজিস্ট্রেশন -->
 <div id="auth">
   <div class="auth-box" id="login">
     <h2>লগইন</h2>
     <input id="lphone" placeholder="মোবাইল নম্বর" type="tel">
     <input id="lpass" type="password" placeholder="পাসওয়ার্ড">
     <button onclick="login()">লগইন</button>
-    <div class="toggle" onclick="showReg()">নতুন অ্যাকাউন্ট খুলুন</div>
+    <div class="toggle" onclick="showReg()">রেজিস্টার করুন</div>
   </div>
 
   <div class="auth-box" id="reg" style="display:none;">
     <h2>রেজিস্ট্রেশন</h2>
-    <input id="rname" placeholder="ইউজারনেম">
     <input id="rphone" placeholder="মোবাইল নম্বর" type="tel">
+    <input id="remail" placeholder="জিমেইল" type="email">
     <input id="rpass" type="password" placeholder="পাসওয়ার্ড">
     <input id="rcpass" type="password" placeholder="কনফার্ম পাসওয়ার্ড">
     <button onclick="register()">রেজিস্টার</button>
@@ -101,63 +134,53 @@
   </div>
 </div>
 
-<!-- ড্যাশবোর্ড / হোম -->
-<div id="dashboard">
-  <div class="dot" onclick="toggleProfile()">⋮</div>
-
+<div id="home">
   <header>
-    <div class="banner">Relax.incom io</div>
-    <div><span class="unveiled" onclick="openModal('verify')">Unveiled</span> → অ্যাকাউন্ট ভেরিফাই করুন</div>
+    <div class="banner">Meta.pro spach</div>
+    <div class="unverified" onclick="openModal('verify')">Unverified</div>
   </header>
 
-  <div class="menu-grid">
-    <div class="box" onclick="openModal('balance')"><i class="fas fa-wallet"></i><span>Balance</span></div>
-    <div class="box" onclick="openModal('free')"><i class="fas fa-coins"></i><span>Free Income</span></div>
-    <div class="box" onclick="openModal('pro')"><i class="fas fa-trophy"></i><span>Pro Income</span></div>
-    <div class="box" onclick="openModal('data')"><i class="fas fa-keyboard"></i><span>Data Entry</span></div>
-    <div class="box" onclick="openModal('promo')"><i class="fas fa-bullhorn"></i><span>Promo Job</span></div>
-    <div class="box" onclick="openModal('myjob')"><i class="fas fa-briefcase"></i><span>My Job</span></div>
-    <div class="box" onclick="openModal('ai')"><i class="fas fa-robot"></i><span>AI Robot</span></div>
-    <div class="box" onclick="openModal('staking')"><i class="fas fa-layer-group"></i><span>Staking</span></div>
-    <div class="box" onclick="openModal('withdraw')"><i class="fas fa-hand-holding-usd"></i><span>Withdraw</span></div>
-    <div class="box" onclick="openModal('offer')"><i class="fas fa-percentage"></i><span>Offer</span></div>
-    <div class="box" onclick="openModal('referral')"><i class="fas fa-users"></i><span>Referral</span></div>
-    <div class="box" onclick="openModal('team')"><i class="fas fa-users-cog"></i><span>My Team</span></div>
-    <div class="box" onclick="openModal('salary')"><i class="fas fa-money-bill-wave"></i><span>Salary</span></div>
-    <div class="box" onclick="openModal('bonus')"><i class="fas fa-gift"></i><span>Bonus</span></div>
-    <div class="box" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div>
+  <div class="welcome">
+    <div class="marquee">🔚🔚🔚🔚🔚🔚 Welcome to our meta.pro spach platform 🔜🔜🔜🔜🔜🔜</div>
   </div>
+
+  <div class="menu-grid">
+    <div class="box" onclick="openModal('balance')"><i class="fas fa-wallet"></i><span>BALANCE</span></div>
+    <div class="box" onclick="openModal('salary')"><i class="fas fa-money-check-alt"></i><span>Salary</span></div>
+    <div class="box" onclick="openModal('team')"><i class="fas fa-users"></i><span>My Team</span></div>
+    <div class="box" onclick="openModal('nft')"><i class="fas fa-gem"></i><span>NFT Offers</span></div>
+    <div class="box" onclick="openModal('lottery')"><i class="fas fa-ticket-alt"></i><span>Lottery</span></div>
+    <div class="box" onclick="openModal('token')"><i class="fas fa-coins"></i><span>Token</span></div>
+    <div class="box" onclick="openModal('ai')"><i class="fas fa-robot"></i><span>AI Robot</span></div>
+    <div class="box" onclick="openModal('referral')"><i class="fas fa-users"></i><span>Referral</span></div>
+    <div class="box" onclick="openModal('deposit')"><i class="fas fa-hand-holding-usd"></i><span>Deposits</span></div>
+    <div class="box" onclick="openModal('package')"><i class="fas fa-box"></i><span>Package Income</span></div>
+    <div class="box" onclick="openModal('free')"><i class="fas fa-gift"></i><span>Free Income</span></div>
+    <div class="box" onclick="openModal('withdraw')"><i class="fas fa-hand-holding-usd"></i><span>Withdraw</span></div>
+  </div>
+
+  <p style="text-align:center; margin:30px 0; font-size:1.1rem;">
+    Contact from Telegram: <a href="https://t.me/ROCKY_MEATING" target="_blank" style="color:var(--primary); text-decoration:none;">https://t.me/ROCKY_MEATING</a>
+  </p>
 </div>
 
-<!-- মডাল (পপআপ) -->
+<!-- Modal -->
 <div class="modal" id="modal">
   <div class="modal-content" id="modalContent">
     <span class="close-btn" onclick="closeModal()">×</span>
   </div>
 </div>
 
-<!-- প্রোফাইল সাইডবার -->
-<div id="profile">
-  <h2>আমার প্রোফাইল</h2>
-  <p>নাম: <strong id="uname">User</strong></p>
-  <p>নম্বর: <strong id="uphone"></strong></p>
-  <p>ব্যালেন্স: 0.00 টাকা</p>
-  <button onclick="toggleProfile()" style="margin-top:30px; background:#dc3545;">বন্ধ করুন</button>
-</div>
-
 <script>
-let currentUser = {name:"", phone:""};
-
 function showReg() { document.getElementById('login').style.display = 'none'; document.getElementById('reg').style.display = 'block'; }
 function showLogin() { document.getElementById('reg').style.display = 'none'; document.getElementById('login').style.display = 'block'; }
 
 function register() {
-  const name = document.getElementById('rname').value.trim();
   const phone = document.getElementById('rphone').value.trim();
+  const email = document.getElementById('remail').value.trim();
   const pass = document.getElementById('rpass').value;
   const cpass = document.getElementById('rcpass').value;
-  if (!name || !phone || !pass || pass !== cpass) return alert('সব ঠিকমতো পূরণ করুন বা পাসওয়ার্ড মিলছে না!');
-  currentUser = {name, phone};
+  if (!phone || !email || !pass || pass !== cpass) return alert('সব ঠিকমতো পূরণ করুন বা পাসওয়ার্ড মিলছে না!');
   alert('রেজিস্ট্রেশন সফল! লগইন করুন');
   showLogin();
 }
@@ -166,79 +189,203 @@ function login() {
   const phone = document.getElementById('lphone').value.trim();
   const pass = document.getElementById('lpass').value;
   if (!phone || !pass) return alert('নম্বর ও পাসওয়ার্ড দিন!');
-  currentUser.phone = phone;
-  document.getElementById('uname').textContent = currentUser.name || phone;
-  document.getElementById('uphone').textContent = phone;
   document.getElementById('auth').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-  history.pushState({page:'dashboard'}, '', '#dashboard');
+  document.getElementById('home').style.display = 'block';
 }
-
-function logout() { if(confirm('লগআউট করবেন?')) location.reload(); }
-
-function toggleProfile() { document.getElementById('profile').classList.toggle('open'); }
 
 function openModal(id) {
   let html = '';
 
-  if (id === 'balance') {
-    html = `<h1>Balance</h1><p style="font-size:2.5rem; font-weight:bold; color:var(--primary);">০.০০ টাকা</p>`;
-  } else if (id === 'withdraw') {
+  if (id === 'verify') {
     html = `
-      <h1>Withdraw</h1>
-      <select style="width:100%; padding:12px; margin:15px 0;">
-        <option>বিকাশ</option><option>নগদ</option><option>রকেট</option>
-      </select>
-      <input placeholder="আপনার নম্বর" style="width:100%; padding:12px; margin:10px 0;">
-      <input type="number" placeholder="Amount (টাকা)" style="width:100%; padding:12px; margin:10px 0;">
-      <button onclick="alert('Withdraw রিকোয়েস্ট সাবমিট হয়েছে')">Confirm Withdraw</button>
+      <h2>ID Verification</h2>
+      <p style="font-size:2rem; font-weight:bold; color:var(--primary);">5 USDT</p>
+      <p style="margin:20px 0;">Address:</p>
+      <div style="background:#e9ecef; padding:15px; border-radius:12px; word-break:break-all; font-family:monospace;">
+        0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17
+      </div>
+      <button onclick="navigator.clipboard.writeText('0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17').then(()=>alert('কপি হয়েছে'))" style="margin-top:20px; background:var(--primary); color:white; padding:12px 24px; border:none; border-radius:8px;">কপি অ্যাড্রেস</button>
+    `;
+  } else if (id === 'balance') {
+    html = `<h2>Balance</h2><p style="font-size:3.5rem; font-weight:bold; color:var(--primary);">0.00 USDT</p>`;
+  } else if (id === 'salary') {
+    html = `
+      <h2>Weekly Salary</h2>
+      <ul style="list-style:none; text-align:left; margin:25px 0; font-size:1.2rem;">
+        <li>10 member → 15 USDT <span style="color:#dc3545; font-weight:bold;">Not complete</span></li>
+        <li>15 member → 20 USDT <span style="color:#dc3545; font-weight:bold;">Not complete</span></li>
+        <li>20 member → 30 USDT <span style="color:#dc3545; font-weight:bold;">Not complete</span></li>
+        <li>25 member → 40 USDT <span style="color:#dc3545; font-weight:bold;">Not complete</span></li>
+        <li>30 member → 50 USDT <span style="color:#dc3545; font-weight:bold;">Not complete</span></li>
+        <li>50 member → 80 USDT <span style="color:#dc3545; font-weight:bold;">Not complete</span></li>
+        <li>100 member → 250 USDT <span style="color:#dc3545; font-weight:bold;">Not complete</span></li>
+      </ul>
+    `;
+  } else if (id === 'team') {
+    html = `
+      <h2>My Team</h2>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin:25px 0;">
+        <div style="text-align:center; font-size:2rem;"><i class="fas fa-user"></i><br>Gen 1: 00</div>
+        <div style="text-align:center; font-size:2rem;"><i class="fas fa-users"></i><br>Gen 2: 00</div>
+        <div style="text-align:center; font-size:2rem;"><i class="fas fa-users"></i><br>Gen 3: 00</div>
+        <div style="text-align:center; font-size:2rem;"><i class="fas fa-users"></i><br>Gen 4: 00</div>
+        <div style="text-align:center; font-size:2rem;"><i class="fas fa-users"></i><br>Gen 5: 00</div>
+      </div>
+      <p style="font-size:1.3rem; margin:20px 0; font-weight:bold;">10 জন টিমে ১৫০০ টাকা প্রতি সপ্তাহে</p>
+      <p style="font-size:1.3rem;">২০ জনে ৩০০০ টাকা</p>
+      <p style="font-size:1.3rem;">২৫ জনে ৩৫০০ টাকা</p>
+      <p style="font-size:1.3rem;">৫০ জনে ৫ হাজার টাকা</p>
+    `;
+  } else if (id === 'nft') {
+    html = `
+      <h2>NFT Offers</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px; margin:25px 0;">
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+          100 USDT <br><button style="margin-top:12px; background:var(--success); color:white; padding:10px 20px; border:none; border-radius:8px;">Claim</button>
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+          200 USDT <br><button style="margin-top:12px; background:#dc3545; color:white; padding:10px 20px; border:none; border-radius:8px;">Not Claim</button>
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+          250 USDT <br><button style="margin-top:12px; background:#dc3545; color:white; padding:10px 20px; border:none; border-radius:8px;">Not Claim</button>
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+          300 USDT <br><button style="margin-top:12px; background:#dc3545; color:white; padding:10px 20px; border:none; border-radius:8px;">Not Claim</button>
+        </div>
+      </div>
+    `;
+  } else if (id === 'lottery') {
+    html = `
+      <h2>Lottery</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:15px; margin:25px 0;">
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; cursor:pointer;" onclick="alert('Invest 8 USDT\\nAddress: 0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nGrand Price: 30-400 USDT')">8 USDT</div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; cursor:pointer;" onclick="alert('Invest 10 USDT\\nAddress: 0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nGrand Price: 30-400 USDT')">10 USDT</div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; cursor:pointer;" onclick="alert('Invest 15 USDT\\nAddress: 0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nGrand Price: 30-400 USDT')">15 USDT</div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px; cursor:pointer;" onclick="alert('Invest 20 USDT\\nAddress: 0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nGrand Price: 30-400 USDT')">20 USDT</div>
+      </div>
+    `;
+  } else if (id === 'token') {
+    html = `
+      <h2>Token</h2>
+      <div style="margin:40px 0; text-align:center;">
+        <i class="fas fa-coins" style="font-size:8rem; color:var(--yellow); animation: spin 4s linear infinite;"></i>
+      </div>
+      <p style="font-size:2.2rem; font-weight:bold; color:var(--primary); margin-top:20px;">
+        Active to 5 USDT
+      </p>
+      <style>
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      </style>
+    `;
+  } else if (id === 'ai') {
+    html = `
+      <h2>AI Robot</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin:25px 0;">
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          5 USDT → 0.5 USDT (30 দিন)<br>
+          <button onclick="alert('Send 5 USDT to:\\n0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nকপি করে পেস্ট করুন')" style="margin-top:12px; background:var(--primary); color:white; padding:10px 20px; border:none; border-radius:8px;">Active</button>
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          10 USDT → 1 USDT (30 দিন)<br>
+          <button onclick="alert('Send 10 USDT to:\\n0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nকপি করে পেস্ট করুন')" style="margin-top:12px; background:var(--primary); color:white; padding:10px 20px; border:none; border-radius:8px;">Active</button>
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          15 USDT → 1.5 USDT (30 দিন)<br>
+          <button onclick="alert('Send 15 USDT to:\\n0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nকপি করে পেস্ট করুন')" style="margin-top:12px; background:var(--primary); color:white; padding:10px 20px; border:none; border-radius:8px;">Active</button>
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          50 USDT → 3 USDT (30 দিন)<br>
+          <button onclick="alert('Send 50 USDT to:\\n0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nকপি করে পেস্ট করুন')" style="margin-top:12px; background:var(--primary); color:white; padding:10px 20px; border:none; border-radius:8px;">Active</button>
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          100 USDT → 5 USDT (30 দিন)<br>
+          <button onclick="alert('Send 100 USDT to:\\n0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17\\nকপি করে পেস্ট করুন')" style="margin-top:12px; background:var(--primary); color:white; padding:10px 20px; border:none; border-radius:8px;">Active</button>
+        </div>
+      </div>
     `;
   } else if (id === 'referral') {
     html = `
-      <h1>Referral</h1>
-      <p>আপনার রেফারেল লিংক:</p>
-      <p style="font-size:1.3rem; word-break:break-all; background:#e9ecef; padding:15px; border-radius:10px;">
-        https://relax.incom.bd/?ref=${currentUser.name || 'yourname'}
-      </p>
-      <p style="margin:20px 0; font-size:1.2rem;">প্রতিটি রেফারে ৭০ টাকা</p>
-      <p>৫ জেনারেশন ইনকাম</p>
-      <div style="display:flex; justify-content:center; gap:20px; margin:20px 0; font-size:2rem;">
-        <div><i class="fas fa-user"></i><br>1</div>
-        <div><i class="fas fa-users"></i><br>2</div>
-        <div><i class="fas fa-users"></i><br>3</div>
-        <div><i class="fas fa-users"></i><br>4</div>
-        <div><i class="fas fa-users"></i><br>5</div>
+      <h2>Referral</h2>
+      <p style="font-size:1.6rem; font-weight:bold;">প্রতি রেফারে ৩ USDT</p>
+      <p style="margin:25px 0;">তোমার রেফার লিংক:</p>
+      <div style="background:#e9ecef; padding:15px; border-radius:12px; word-break:break-all; font-size:1.1rem;">
+        https://meta.prospach.com/?ref=yourname
       </div>
     `;
-  } else if (id === 'verify') {
+  } else if (id === 'deposit') {
     html = `
-      <h1>Unveiled Account</h1>
-      <p>অ্যাকাউন্টটি ভ্যারিফাই করতে ১৫০ টাকা সেন্ড মানি করুন শুধু বিকাশে</p>
-      <div style="font-size:1.5rem; font-weight:bold; background:#e9ecef; padding:15px; border-radius:10px; margin:20px 0;">
-        01304893753 বিকাশ আইডি
-        <button onclick="navigator.clipboard.writeText('01304893753').then(()=>alert('কপি হয়েছে'))" style="margin-left:10px; background:var(--primary); color:white; padding:8px 16px; border:none; border-radius:6px;">কপি</button>
+      <h2>Deposits</h2>
+      <p style="font-size:1.3rem;">Address:</p>
+      <div style="background:#e9ecef; padding:15px; border-radius:12px; word-break:break-all; font-family:monospace;">
+        0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17
       </div>
-      <input placeholder="Trx আইডি বসান" style="width:100%; padding:12px; margin:15px 0;">
-      <button onclick="alert('ভেরিফিকেশন সাবমিট হয়েছে')">Verified</button>
+      <button onclick="navigator.clipboard.writeText('0xAc9a2c7a221debEF5917181fAa0aBa97033BFf17').then(()=>alert('কপি হয়েছে'))" style="margin-top:15px; background:var(--primary); color:white; padding:10px 20px; border:none; border-radius:8px;">কপি</button>
+    `;
+  } else if (id === 'package') {
+    html = `
+      <h2>Package Income</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin:25px 0;">
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          5 USDT - 30 দিন → 0.5 USDT per day
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          10 USDT - 30 দিন → 1 USDT per day
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          15 USDT - 30 দিন → 1.5 USDT per day
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          20 USDT - 30 দিন → 2 USDT per day
+        </div>
+        <div style="background:#e9ecef; padding:20px; border-radius:12px;">
+          50 USDT - 30 দিন → 10 USDT per day
+        </div>
+      </div>
+    `;
+  } else if (id === 'free') {
+    html = `
+      <h2>Free Income</h2>
+      <p style="font-size:1.3rem; margin:20px 0;">কার্ড সিলেক্ট করুন (উপর থেকে পড়ছে)</p>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:15px; animation: fall 10s infinite;">
+        <div style="background:#e9ecef; padding:25px; border-radius:12px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1);" onclick="alert('আগে আইডি verification করেন')">Card 1</div>
+        <div style="background:#e9ecef; padding:25px; border-radius:12px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1);" onclick="alert('আগে আইডি verification করেন')">Card 2</div>
+        <div style="background:#e9ecef; padding:25px; border-radius:12px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1);" onclick="alert('আগে আইডি verification করেন')">Card 3</div>
+        <div style="background:#e9ecef; padding:25px; border-radius:12px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.1);" onclick="alert('আগে আইডি verification করেন')">Card 4</div>
+      </div>
+      <p style="margin-top:30px; font-size:1.4rem;">Grand Price: 10 USDT</p>
+    `;
+  } else if (id === 'withdraw') {
+    html = `
+      <h2>Withdraw</h2>
+      <select style="width:100%; padding:12px; margin:15px 0;">
+        <option>বিকাশ</option>
+        <option>নগদ</option>
+        <option>রকেট</option>
+      </select>
+      <input type="text" placeholder="মোবাইল নম্বর" style="width:100%; padding:12px; margin:10px 0;">
+      <input type="number" placeholder="Amount (USDT)" style="width:100%; padding:12px; margin:10px 0;">
+      <button onclick="alert('Withdraw রিকোয়েস্ট সাবমিট হয়েছে')">Confirm Withdraw</button>
     `;
   } else {
-    html = `<h1>${id.replace(/^\w/, c => c.toUpperCase())}</h1><p>এই অপশন ভেরিফাই করতে হবে</p><button onclick="openModal('verify')">ভেরিফাই করুন</button>`;
+    html = `<h2>${id.replace(/^\w/, c => c.toUpperCase())}</h2><p>এই অপশনের ডিটেইলস এখানে</p>`;
   }
 
   html += '<button class="back-btn" onclick="closeModal()">বন্ধ করুন</button>';
   document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modal').classList.add('show');
   document.getElementById('modal').style.display = 'block';
-  history.pushState({page:id}, '', '#' + id);
 }
 
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
-  history.back();
+  document.getElementById('modal').classList.remove('show');
 }
 
 window.onpopstate = () => {
-  document.getElementById('modal').style.display = 'none';
-  window.scrollTo(0, 0);
+  closeModal();
 };
 </script>
 </body>
